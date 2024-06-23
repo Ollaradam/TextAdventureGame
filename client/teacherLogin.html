@@ -1,0 +1,281 @@
+<!-- Some front-end code copied or adapted from: https://www.w3schools.com/howto/howto_js_password_validation.asp -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <style>
+        
+        body {
+            background-color: #97c6ab;
+        }
+        .title {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding-top: 1%;
+            padding-bottom: 2%;
+            font-size: 32px;
+            font-weight:700;
+            
+        }
+
+        /* All input boxes... */
+        input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        border-radius: 10px 10px 10px 10px;
+        }
+
+        /* Style the submit button */
+        input[type=submit] {
+        padding-bottom: 10px;
+        background-color: #4285f4;
+        color: white;
+        }
+
+        input[type=submit]:hover {
+            background-color: #3367d6;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #3367d6;
+            cursor: pointer;
+        }
+
+
+        /* Style the container for inputs */
+        .container {
+        background-color: #d1d1e0;
+        padding-top: 20px;
+        width: 30%;
+        margin: 0 auto;
+        border-radius: 15px;
+        position: absolute;
+        top:25%;
+        left:35%;
+        height: 330px;
+        }
+
+        /* The checklist box is shown when the user clicks on the password field */
+        /* #checklist {
+        display: block;
+        background: #f1f1f1;
+        color: #000;
+        padding: 20px;
+        margin-top: -35px;
+        }
+
+        #checklist p {
+        padding: 0px 20px;
+        font-size: 10px;
+        } */    
+
+        .tabs {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: space-around;
+        margin-bottom: 10px;
+        }
+
+        .tab {
+        cursor: pointer;
+        padding: 10px 15px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+        }
+
+        .tab:hover {
+        background-color: #ddd;
+        }
+
+        .tab-content {
+        display: none;
+        padding: 20px 20px 0px 20px;
+        border-radius: 0 0 5px 5px;
+        }
+
+        .tab-content.active {
+        display: block;
+        }
+
+        #createAccountTab {
+            background-color: transparent;
+        }
+
+        /* #loginTab {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        } */
+
+    </style>
+    </head>
+
+    <body>
+        <h1>Welcome to Text Adventure Game</h1>
+        <div class="button-container">
+            <button onclick="location.href='teacherLogin.html'">I am a Teacher</button>
+            <button onclick="location.href='#'">I am a Student</button>
+        </div>
+        <div class = "title">
+            Welcome, Teacher!
+        </div>
+        <div class="container">
+            <ul class="tabs">
+                <li class="tab" onclick="openTab('loginTab')">Login</li>
+                <li class="tab" onclick="openTab('createAccountTab')">Create Account</li>
+              </ul>
+            
+            <div id="createAccountTab" class="tab-content">
+                <form action="/action_page.php">
+    
+                    <input type="text" id="usrname" placeholder = "Username" name="usrname" required>
+
+                    <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required >
+
+                    <input type="password2" id="psw2" name="psw2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Re-Enter Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+
+                    <input type="submit" id="submitButton" value="Create Account">
+                </form>
+            </div>
+
+            <div id="loginTab" class="tab-content">
+                <form action="/action_page.php">
+    
+                    <input type="text" id="login-usrname" placeholder = "Username" name="login-usrname" required>
+
+                    <input type="password" id="login-psw" name="login-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required >
+
+                    <input type="submit" id="loginbutton" value="Log In">
+                </form>
+
+            </div>
+        </div>
+    
+    
+    
+    <script>
+            document.getElementById('loginTab').classList.add('active');
+            var username = document.getElementById("usrname")
+            var password = document.getElementById("psw");
+            var loginusername = document.getElementById("login-usrname")
+            var loginpassword = document.getElementById("login-psw")
+            // var letter = document.getElementById("letter");
+            // var capital = document.getElementById("capital");
+            // var number = document.getElementById("number");
+            // var length = document.getElementById("length");
+            var password2 = document.getElementById("psw2");
+            var submitButton = document.getElementById("submitButton")
+            var logInButton = document.getElementById("loginbutton")
+            password2.type = "password"
+            
+            // function hidemessage() {
+            //     console.log("1");
+            //     document.getElementById("checklist").style.display = "none";
+            //     console.log("2");
+            // }
+
+            // function displaymessage() {
+            //     console.log("3");
+            //     document.getElementById("checklist").style.display = "block";
+            //     console.log("4");
+            // }
+
+            function validate() {
+                // Validate lowercase letters
+                var lowerCaseLetters = /[a-z]/g;
+                // if(password.value.match(lowerCaseLetters)) {
+                //     letter.classList.remove("invalid");
+                //     letter.classList.add("valid");
+                // } else {
+                //     letter.classList.remove("valid");
+                //     letter.classList.add("invalid");
+                // }
+                
+                if(username.value.length < 3){
+                    alert("Username must be at least 3 characters long!");
+                    return;
+                }
+
+                if(!password.value.match(lowerCaseLetters)) {
+                    alert("You need at least 1 lowercase letter in your new password!");
+                    return;
+                }
+
+
+                // Validate capital letters
+                var upperCaseLetters = /[A-Z]/g;
+                if(!password.value.match(upperCaseLetters)) {
+                    alert("You need at least 1 capital letter in your new password!");
+                    return;
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if(!password.value.match(numbers)) {
+                    alert("You need at least 1 number in your new password!");
+                    return;
+                }
+
+                // Validate length
+                if(!(password.value.length >= 8)) {
+                    alert("Your new password must have at least 8 characters!");
+                    return;
+                }
+                
+                // Validate match
+                if(!password.value == password2.value) {
+                    alert("Your passwords do not match!");
+                    return;
+                }
+
+                else{
+                    console.log("Sending Username and Password to Back-End");
+                    console.log(username.value)
+                    console.log(password.value);
+                }
+            }
+           
+            
+            submitButton.addEventListener("click",  validate);
+            logInButton.addEventListener("click", logIn)
+
+
+            function logIn() {
+
+                console.log("Logging in");
+                console.log(loginusername.value);
+                console.log(loginpassword.value);
+            }
+
+            // When the user starts to type something inside the password field
+            // password.addEventListener("keyup", validate);
+            // password2.addEventListener("keyup", validate);
+
+
+            function openTab(tabId) {
+                // Hide all tab contents
+                var tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+                // Show the selected tab content
+                document.getElementById(tabId).classList.add('active');
+            }
+    </script>
+
+</body>
+</html>
